@@ -5,7 +5,8 @@
   "description": "MobyMask",
   "action": {
     "default_icon": "images/logo.png",
-    "default_title": "MobyMask"
+    "default_title": "MobyMask",
+    "default_popup": "popup.html"
   },
   "icons": {
     "128": "images/logo.png",
@@ -15,6 +16,11 @@
     {
       "matches": ["https://twitter.com/*"],
       "js": ["./dist/static/js/content.js"]
+    },
+    {
+      "matches": ["http://127.0.0.1:3000/*"],
+      "js": ["./dist/static/js/contentDapp.js"],
+      "run_at": "document_start"
     }
   ],
   "background": {

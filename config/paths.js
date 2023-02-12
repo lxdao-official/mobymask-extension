@@ -70,6 +70,7 @@ module.exports = {
   publicUrlOrPath: resolveApp(publicUrlOrPath),
   content: resolveApp('./src/pages/content-script/App.tsx'),
   background: resolveApp('./src/scripts/background.ts'),
+  contentDapp: resolveApp('./src/scripts/content-fordapp.ts'),
   popup: resolveApp('./src/pages/popup/App.tsx'),
 };
 

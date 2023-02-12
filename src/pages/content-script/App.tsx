@@ -21,6 +21,7 @@ import {
   getWaitingList,
   removeFromWaitList,
 } from '../../functions/storage';
+import { config } from '../../config';
 
 const rootElement = document.createElement('div');
 rootElement.id = 'mobymask-root';
@@ -46,11 +47,9 @@ function Root() {
 
     if (twitterReportDOM) {
       const userId = getMenuUserId(twitterReportDOM);
-      console.log('twitterReportDOM', twitterReportDOM);
       const dom = insertReportDOM(twitterReportDOM);
 
       dom?.addEventListener('click', () => {
-        console.log('userId', userId);
         if (userId) {
           addUserId(userId);
         }
@@ -102,7 +101,7 @@ function Root() {
       closeButton
       aria-labelledby="modal-title"
       open={modalVisible}
-      // onClose={closeHandler}
+      onClose={closeHandler}
     >
       <Modal.Header>
         <Text id="modal-title" size={18}>
@@ -110,41 +109,64 @@ function Root() {
         </Text>
       </Modal.Header>
       <Modal.Body>
-        <Table
-          css={{
-            height: '200px',
-            minWidth: '100%',
-          }}
-        >
-          <Table.Header columns={columns}>
-            {(column) => (
-              <Table.Column key={column.key}>{column.label}</Table.Column>
-            )}
-          </Table.Header>
-          <Table.Body items={rows}>
-            {(item) => (
-              <Table.Row key={item.key}>
-                <Table.Cell>@{item.userId}</Table.Cell>
-                <Table.Cell>
-                  <Link
-                    href="#"
-                    onClick={() => {
-                      removeUserId(item.userId);
-                    }}
-                  >
-                    Remove
-                  </Link>
-                </Table.Cell>
-              </Table.Row>
-            )}
-          </Table.Body>
-        </Table>
+        {rows.length === 0 ? (
+          <div
+            style={{
+              textAlign: 'center',
+              marginTop: '40px',
+              marginBottom: '20px',
+              fontSize: '14px',
+              color: '#999',
+            }}
+          >
+            No Records
+          </div>
+        ) : (
+          <Table
+            css={{
+              maxHeight: '200px',
+              minWidth: '100%',
+            }}
+          >
+            <Table.Header columns={columns}>
+              {(column) => (
+                <Table.Column key={column.key}>{column.label}</Table.Column>
+              )}
+            </Table.Header>
+            <Table.Body items={rows}>
+              {(item) => (
+                <Table.Row key={item.key}>
+                  <Table.Cell>@{item.userId}</Table.Cell>
+                  <Table.Cell>
+                    <Button
+                      bordered
+                      color="primary"
+                      auto
+                      size="xs"
+                      onClick={() => {
+                        console.log('remove', item.userId);
+                        removeUserId(item.userId);
+                      }}
+                    >
+                      Remove
+                    </Button>
+                  </Table.Cell>
+                </Table.Row>
+              )}
+            </Table.Body>
+          </Table>
+        )}
       </Modal.Body>
       <Modal.Footer>
         <Button auto flat color="error" onPress={closeHandler}>
           Cancel
         </Button>
-        <Button auto onPress={closeHandler}>
+        <Button
+          auto
+          onPress={() => {
+            window.open(config.dappUrl);
+          }}
+        >
           Submit batch to blockchain
         </Button>
       </Modal.Footer>
@@ -154,7 +176,7 @@ function Root() {
 ReactDOM.render(
   <React.StrictMode>
     <Root />
-    <Toaster />
+    <Toaster containerStyle={{ zIndex: 1000000000000 }} />
   </React.StrictMode>,
   rootElement,
 );

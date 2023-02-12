@@ -200,6 +200,7 @@ module.exports = function (webpackEnv) {
       content: paths.content,
       background: paths.background,
       popup: paths.popup,
+      contentDapp: paths.contentDapp,
     },
     output: {
       // The build folder.

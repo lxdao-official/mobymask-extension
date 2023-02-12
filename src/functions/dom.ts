@@ -41,18 +41,20 @@ export function insertReportDOM(twitterReportDOM: HTMLElement) {
 }
 
 export function getUserNameDOMs() {
-  const userNameDOMs = document.querySelectorAll(
+  const userNamesDOMs = document.querySelectorAll(
     'div[data-testid="User-Names"]:not([data-phisher-checked="1"])',
   );
-  console.log('userNameDOMs', userNameDOMs);
-  return userNameDOMs;
+  const userNameDOM = document.querySelectorAll(
+    'div[data-testid="UserName"]:not([data-phisher-checked="1"])',
+  );
+  return [...userNamesDOMs, ...userNameDOM];
 }
 
 export function getUserId(userNameDOM: HTMLElement) {
   const userId = userNameDOM.innerHTML.match(/@([a-zA-Z0-9_-]+)/)?.[1];
   return userId;
 }
-const phisherIcon = `<svg width="21" height="19" viewBox="0 0 21 19" fill="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+const phisherIcon = `<svg width="21" height="19" viewBox="0 0 21 19" fill="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" style="vertical-align:-3px">
 <rect width="21" height="19" fill="url(#pattern0)"/>
 <defs>
 <pattern id="pattern0" patternContentUnits="objectBoundingBox" width="1" height="1">
