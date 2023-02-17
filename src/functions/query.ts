@@ -26,7 +26,7 @@ export async function checkPhisher(userId: string) {
       accept: '*/*',
       'content-type': 'application/json',
     },
-    body: `{"query":"query {\\n    isPhisher(\\n      blockHash: \\"${blockHash}\\"\\n      contractAddress: \\"0x1ca7c995f8eF0A2989BbcE08D5B7Efe50A584aa1\\"\\n      key0: \\"TWT:${userId}\\"\\n    ) {\\n      value\\n      proof {\\n        data\\n      }\\n    }}","variables":{}}`,
+    body: `{"query":"query {\\n    isPhisher(\\n      blockHash: \\"${blockHash}\\"\\n      contractAddress: \\"0x1ca7c995f8eF0A2989BbcE08D5B7Efe50A584aa1\\"\\n      key0: \\"TWT:${userId.toLowerCase()}\\"\\n    ) {\\n      value\\n      proof {\\n        data\\n      }\\n    }}","variables":{}}`,
     method: 'POST',
     mode: 'cors',
     credentials: 'omit',
