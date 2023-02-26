@@ -9,6 +9,7 @@ import {
   Text,
   Button,
   Link,
+  Container,
 } from '@nextui-org/react';
 import {
   checkMenuDom,
@@ -22,6 +23,7 @@ import {
   removeFromWaitList,
 } from '../../functions/storage';
 import { config } from '../../config';
+import List from '../../components/List';
 
 const rootElement = document.createElement('div');
 rootElement.id = 'mobymask-root';
@@ -29,143 +31,52 @@ rootElement.id = 'mobymask-root';
 document.body.appendChild(rootElement);
 
 function Root() {
-  const [waitList, setWaitList] = React.useState<string[]>([]);
-  const [modalVisible, setModalVisible] = React.useState<boolean>(false);
-  async function addUserId(userId: string) {
-    await addToWaitList(userId);
-    toast.success('Added to wait list');
-    checkWaitList();
-    setModalVisible(true);
-  }
-  async function removeUserId(userId: string) {
-    await removeFromWaitList(userId);
-    toast.success('Removed from wait list');
-    checkWaitList();
-  }
-  function checkReportDOM() {
-    const twitterReportDOM = checkMenuDom();
-
-    if (twitterReportDOM) {
-      const userId = getMenuUserId(twitterReportDOM);
-      console.log('twitterReportDOM', twitterReportDOM);
-      const dom = insertReportDOM(twitterReportDOM);
-
-      dom?.addEventListener('click', () => {
-        console.log('userId', userId);
-        if (userId) {
-          addUserId(userId);
-        }
-      });
-    }
-    setTimeout(() => {
-      checkReportDOM();
-    }, 1000);
-  }
-
-  function checkUserListPhisher() {
-    checkUserIds();
-    setTimeout(() => {
-      checkUserListPhisher();
-    }, 1000);
-  }
-  async function checkWaitList() {
-    const _waitList = await getWaitingList();
-    if (_waitList) {
-      setWaitList(_waitList);
-    }
-  }
-  useEffect(() => {
-    checkReportDOM();
-    checkWaitList();
-    checkUserListPhisher();
-  }, []);
-  const columns = [
-    {
-      key: 'twitter userId',
-      label: 'userId',
-    },
-    {
-      key: 'action',
-      label: 'action',
-    },
-  ];
-  const rows = waitList.map((userId) => ({
-    key: userId,
-    userId,
-  }));
-
-  function closeHandler() {
-    setModalVisible(false);
-  }
+  useEffect(() => {}, []);
 
   return (
-    <div
-      style={{
+    <Container
+      css={{
         width: '360px',
         padding: '10px',
+        fontFamily: 'Inter, sans-serif',
+        ' *': {
+          fontFamily: 'Inter, sans-serif',
+        },
       }}
     >
-      <Text id="modal-title" size={18}>
+      <Text
+        id="modal-title"
+        size={18}
+        css={{
+          fontWeight: 700,
+          fontSize: '28px',
+          lineHeight: '34px',
+          textAlign: 'center',
+          color: '#101828',
+          marginTop: '30px',
+          marginBottom: '20px',
+        }}
+      >
         Pending Reports
       </Text>
-
-      {rows.length === 0 ? (
-        <div
-          style={{
-            textAlign: 'center',
-            marginTop: '40px',
-            marginBottom: '20px',
-            fontSize: '14px',
-            color: '#999',
-          }}
-        >
-          No Records
-        </div>
-      ) : (
-        <div
-          style={{
-            height: '310px',
-            overflow: 'auto',
-            minWidth: '100%',
-          }}
-        >
-          <Table>
-            <Table.Header columns={columns}>
-              {(column) => (
-                <Table.Column key={column.key}>{column.label}</Table.Column>
-              )}
-            </Table.Header>
-            <Table.Body items={rows}>
-              {(item) => (
-                <Table.Row key={item.key}>
-                  <Table.Cell>@{item.userId}</Table.Cell>
-                  <Table.Cell>
-                    <Button
-                      bordered
-                      color="primary"
-                      auto
-                      size="xs"
-                      onClick={() => {
-                        console.log('remove', item.userId);
-                        removeUserId(item.userId);
-                      }}
-                      style={{
-                        border: '1px solid #D0D5DD',
-                        boxShadow: '0px 1px 2px rgba(16, 24, 40, 0.05)',
-                        borderRadius: '100px',
-                        width: '94px',
-                        height: '30px',
-                      }}
-                    >
-                      Remove
-                    </Button>
-                  </Table.Cell>
-                </Table.Row>
-              )}
-            </Table.Body>
-          </Table>
-        </div>
-      )}
+      <Container
+        css={{
+          maxHeight: '315px',
+          overflow: 'auto',
+          padding: '0',
+          scrollBehavior: 'smooth',
+          '&::-webkit-scrollbar': {
+            width: '5px',
+            height: '5px',
+          },
+          '&::-webkit-scrollbar-thumb': {
+            borderRadius: '10px',
+            backgroundColor: '#aaa',
+          },
+        }}
+      >
+        <List />
+      </Container>
       <div
         style={{
           display: 'flex',
@@ -180,13 +91,17 @@ function Root() {
           onPress={() => {
             window.open(config.dappUrl);
           }}
-          style={{
+          css={{
             width: '253px',
             height: '48px',
             background: 'linear-gradient(90deg, #334FB8 0%, #1D81BE 100%)',
             boxShadow: '0px 1px 2px rgba(16, 24, 40, 0.05)',
             borderRadius: '100px',
             color: '#fff',
+            fontSize: '16px',
+            '&:hover': {
+              opacity: 0.7,
+            },
           }}
         >
           Submit batch to blockchain
@@ -199,14 +114,15 @@ function Root() {
             lineHeight: '20px',
             color: '#666F85',
             textAlign: 'center',
-            marginTop: '10px',
+            marginTop: '20px',
+            marginBottom: '20px',
           }}
         >
           You can always find the entire list of pending reports on the official
           website: <a href="https://mobymask.com">mobymask.com</a>
         </div>
       </div>
-    </div>
+    </Container>
   );
 }
 ReactDOM.render(

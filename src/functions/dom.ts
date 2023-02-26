@@ -73,7 +73,7 @@ export async function checkUserIds() {
         iconContainer.style.display = 'inline-block';
         iconContainer.style.marginLeft = '5px';
         iconContainer.innerHTML = phisherIcon;
-        iconContainer.title = 'This user is a reported as phisher';
+        iconContainer.title = 'This user is reported as phisher by Mobymask';
         userNameDOM.appendChild(iconContainer);
 
         userNameDOM.setAttribute('data-phisher', 'true');

@@ -22,6 +22,7 @@ import {
   removeFromWaitList,
 } from '../../functions/storage';
 import { config } from '../../config';
+import List from '../../components/List';
 
 const rootElement = document.createElement('div');
 rootElement.id = 'mobymask-root';
@@ -29,19 +30,13 @@ rootElement.id = 'mobymask-root';
 document.body.appendChild(rootElement);
 
 function Root() {
-  const [waitList, setWaitList] = React.useState<string[]>([]);
   const [modalVisible, setModalVisible] = React.useState<boolean>(false);
   async function addUserId(userId: string) {
     await addToWaitList(userId);
     toast.success('Added to wait list');
-    checkWaitList();
     setModalVisible(true);
   }
-  async function removeUserId(userId: string) {
-    await removeFromWaitList(userId);
-    toast.success('Removed from wait list');
-    checkWaitList();
-  }
+
   function checkReportDOM() {
     const twitterReportDOM = checkMenuDom();
 
@@ -66,31 +61,10 @@ function Root() {
       checkUserListPhisher();
     }, 1000);
   }
-  async function checkWaitList() {
-    const _waitList = await getWaitingList();
-    if (_waitList) {
-      setWaitList(_waitList);
-    }
-  }
   useEffect(() => {
     checkReportDOM();
-    checkWaitList();
     checkUserListPhisher();
   }, []);
-  const columns = [
-    {
-      key: 'twitter userId',
-      label: 'userId',
-    },
-    {
-      key: 'action',
-      label: 'action',
-    },
-  ];
-  const rows = waitList.map((userId) => ({
-    key: userId,
-    userId,
-  }));
 
   function closeHandler() {
     setModalVisible(false);
@@ -102,9 +76,27 @@ function Root() {
       aria-labelledby="modal-title"
       open={modalVisible}
       onClose={closeHandler}
+      width="443px"
+      css={{
+        fontFamily: 'Inter, sans-serif',
+        ' *': {
+          fontFamily: 'Inter, sans-serif',
+        },
+      }}
     >
       <Modal.Header>
-        <Text id="modal-title" size={18}>
+        <Text
+          id="modal-title"
+          css={{
+            fontWeight: 700,
+            fontSize: '28px',
+            lineHeight: '34px',
+            textAlign: 'center',
+            color: '#101828',
+            marginTop: '30px !important',
+            marginBottom: '20px !important',
+          }}
+        >
           Pending Reports
         </Text>
       </Modal.Header>
@@ -112,62 +104,18 @@ function Root() {
         css={{
           maxHeight: '310px',
           overflow: 'auto',
+          scrollBehavior: 'smooth',
+          '&::-webkit-scrollbar': {
+            width: '5px',
+            height: '5px',
+          },
+          '&::-webkit-scrollbar-thumb': {
+            borderRadius: '10px',
+            backgroundColor: '#aaa',
+          },
         }}
       >
-        {rows.length === 0 ? (
-          <div
-            style={{
-              textAlign: 'center',
-              marginTop: '40px',
-              marginBottom: '20px',
-              fontSize: '14px',
-              color: '#999',
-            }}
-          >
-            No Records
-          </div>
-        ) : (
-          <Table
-            css={{
-              height: '300px',
-              minWidth: '100%',
-            }}
-          >
-            <Table.Header columns={columns}>
-              {(column) => (
-                <Table.Column key={column.key}>{column.label}</Table.Column>
-              )}
-            </Table.Header>
-            <Table.Body items={rows}>
-              {(item) => (
-                <Table.Row key={item.key}>
-                  <Table.Cell>@{item.userId}</Table.Cell>
-                  <Table.Cell>
-                    <Button
-                      bordered
-                      color="primary"
-                      auto
-                      size="xs"
-                      onClick={() => {
-                        console.log('remove', item.userId);
-                        removeUserId(item.userId);
-                      }}
-                      style={{
-                        border: '1px solid #D0D5DD',
-                        boxShadow: '0px 1px 2px rgba(16, 24, 40, 0.05)',
-                        borderRadius: '100px',
-                        width: '94px',
-                        height: '30px',
-                      }}
-                    >
-                      Remove
-                    </Button>
-                  </Table.Cell>
-                </Table.Row>
-              )}
-            </Table.Body>
-          </Table>
-        )}
+        <List />
       </Modal.Body>
       <Modal.Footer justify="center">
         <Button
@@ -175,13 +123,17 @@ function Root() {
           onPress={() => {
             window.open(config.dappUrl);
           }}
-          style={{
+          css={{
             width: '253px',
             height: '48px',
             background: 'linear-gradient(90deg, #334FB8 0%, #1D81BE 100%)',
             boxShadow: '0px 1px 2px rgba(16, 24, 40, 0.05)',
             borderRadius: '100px',
             color: '#fff',
+            fontSize: '16px',
+            '&:hover': {
+              opacity: 0.7,
+            },
           }}
         >
           Submit batch to blockchain
@@ -194,7 +146,8 @@ function Root() {
             lineHeight: '20px',
             color: '#666F85',
             textAlign: 'center',
-            marginTop: '10px',
+            marginTop: '20px',
+            marginBottom: '20px',
           }}
         >
           You can always find the entire list of pending reports on the official
