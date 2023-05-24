@@ -1,27 +1,11 @@
 import React, { useEffect } from 'react';
 import ReactDOM from 'react-dom';
-import { toast, Toaster } from 'react-hot-toast';
+import { Toaster } from 'react-hot-toast';
 import {
-  NextUIProvider,
-  createTheme as createThemeNextUI,
-  Modal,
-  Table,
   Text,
   Button,
-  Link,
   Container,
 } from '@nextui-org/react';
-import {
-  checkMenuDom,
-  checkUserIds,
-  getMenuUserId,
-  insertReportDOM,
-} from '../../functions/dom';
-import {
-  addToWaitList,
-  getWaitingList,
-  removeFromWaitList,
-} from '../../functions/storage';
 import { config } from '../../config';
 import List from '../../components/List';
 
@@ -31,7 +15,7 @@ rootElement.id = 'mobymask-root';
 document.body.appendChild(rootElement);
 
 function Root() {
-  useEffect(() => {}, []);
+  useEffect(() => { }, []);
 
   return (
     <Container

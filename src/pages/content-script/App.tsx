@@ -2,13 +2,9 @@ import React, { useEffect } from 'react';
 import ReactDOM from 'react-dom';
 import { toast, Toaster } from 'react-hot-toast';
 import {
-  NextUIProvider,
-  createTheme as createThemeNextUI,
   Modal,
-  Table,
   Text,
   Button,
-  Link,
 } from '@nextui-org/react';
 import {
   checkMenuDom,
@@ -18,8 +14,6 @@ import {
 } from '../../functions/dom';
 import {
   addToWaitList,
-  getWaitingList,
-  removeFromWaitList,
 } from '../../functions/storage';
 import { config } from '../../config';
 import List from '../../components/List';
@@ -64,6 +58,7 @@ function Root() {
   useEffect(() => {
     checkReportDOM();
     checkUserListPhisher();
+    // eslint-disable-next-line
   }, []);
 
   function closeHandler() {
