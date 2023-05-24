@@ -26,3 +26,5 @@ extensions/dist
 
 extensions.zip
 *.zip
+
+.env
