@@ -44,7 +44,7 @@ export function insertReportDOM(twitterReportDOM: HTMLElement) {
 
 export function getUserNameDOMs() {
   const userNamesDOMs = document.querySelectorAll(
-    'div[data-testid="User-Names"]:not([data-phisher-checked="1"])',
+    'div[data-testid="User-Name"]:not([data-phisher-checked="1"])',
   );
   const userNameDOM = document.querySelectorAll(
     'div[data-testid="UserName"]:not([data-phisher-checked="1"])',
