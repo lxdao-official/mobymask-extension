@@ -11,7 +11,7 @@ This repository is dedicated to the Chrome Extension. For the UI repository, ple
 1. `git clone` this repo.
 2. Run `yarn install`.
 3. Run `npm run build:dev` to create a development bundle and it connects to the backend API at `127.0.0.1`.
-4. Run `npm run build` to create a production bundle.
+4. Run `npm run build` to create a production bundle to release to Chrome Web Store.
 
 After building the bundle, navigate to `chrome://extensions/`, turn on `Developer mode`, then click `Load unpacked` and choose the `./extensions` folder. Then you can start testing and using the extension locally.
 
