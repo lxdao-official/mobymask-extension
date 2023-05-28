@@ -1,4 +1,4 @@
 export const config = {
-  queryBaseUrl: 'http://127.0.0.1:3001',
-  dappUrl: 'http://127.0.0.1:3000',
+  queryBaseUrl: process.env.REACT_APP_QUERY_BASE_URL,
+  dappUrl: process.env.REACT_APP_DAPP_URL,
 };
